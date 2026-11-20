@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Delete, like the delete.left symbol. Drawn for this fork in the style of Apple's SF Symbols (line icons, round caps). White, so the theme can tint it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M9.2,5.8H18.6A2.2,2.2 0,0 1,20.8 8V16A2.2,2.2 0,0 1,18.6 18.2H9.2L3.4,12Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M11.6,9.4L16.6,14.4M16.6,9.4L11.6,14.4"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

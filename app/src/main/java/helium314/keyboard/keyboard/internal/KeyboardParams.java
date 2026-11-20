@@ -276,6 +276,7 @@ public class KeyboardParams {
             keyAttr.recycle();
             keyboardAttr.recycle();
         }
-        setTabletExtraKeys = Settings.getInstance().isTablet() && !mId.getSubtype().isCustom();
+        // the tablet functional layout has its own punctuation keys, so no extra `!` and `?` keys
+        setTabletExtraKeys = false;
     }
 }

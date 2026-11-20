@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A flat key cap in the iOS 26 style: one rounded rectangle, no shadow edge under it.
+     iOS 26 uses an 8pt radius on 43pt keys, which is about 9dp on our 46dp keys.
+     The shape is white so the theme can tint it. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@android:color/white" />
+    <corners android:radius="9dp" />
+</shape>

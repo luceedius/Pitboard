@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Language switch, a globe. Drawn for this fork in the style of Apple's SF Symbols (line icons, round caps). White, so the theme can tint it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M3.5,12A8.5,8.5 0,1 0,20.5 12A8.5,8.5 0,1 0,3.5 12Z M12,3.5C9.6,5.8 8.4,8.7 8.4,12C8.4,15.3 9.6,18.2 12,20.5 M12,3.5C14.4,5.8 15.6,8.7 15.6,12C15.6,15.3 14.4,18.2 12,20.5 M12,3.5V20.5 M3.5,12H20.5 M5,7.6H19 M5,16.4H19"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

@@ -55,7 +55,7 @@ object KeyCode {
     //const val CLIPBOARD_CLEAR_PRIMARY_CLIP = -38
 
     const val TOGGLE_FLOATING_WINDOW =      -109
-    //const val TOGGLE_COMPACT_LAYOUT =       -110
+    const val TOGGLE_FULL_LAYOUT =          -110 // switches the unfolded inner screen between the full layout and the mobile layout
     //const val COMPACT_LAYOUT_TO_LEFT =      -111
     //const val COMPACT_LAYOUT_TO_RIGHT =     -112
     const val SPLIT_LAYOUT =                -113
@@ -205,7 +205,7 @@ object KeyCode {
         TOGGLE_FLOATING_WINDOW,
 
         // heliboard only
-        SYMBOL_ALPHA, TOGGLE_ONE_HANDED_MODE, SWITCH_ONE_HANDED_MODE, SPLIT_LAYOUT, SHIFT_ENTER,
+        SYMBOL_ALPHA, TOGGLE_ONE_HANDED_MODE, SWITCH_ONE_HANDED_MODE, SPLIT_LAYOUT, TOGGLE_FULL_LAYOUT, SHIFT_ENTER,
         ACTION_NEXT, ACTION_PREVIOUS, NOT_SPECIFIED, CLIPBOARD_COPY_ALL, WORD_LEFT, WORD_RIGHT, PAGE_UP,
         PAGE_DOWN, META, TAB, ESCAPE, INSERT, SLEEP, MEDIA_PLAY, MEDIA_PAUSE, MEDIA_PLAY_PAUSE, MEDIA_NEXT,
         MEDIA_PREVIOUS, VOL_UP, VOL_DOWN, MUTE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, BACK,

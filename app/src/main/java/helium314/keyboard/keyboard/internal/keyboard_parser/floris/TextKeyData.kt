@@ -213,7 +213,7 @@ sealed interface KeyData : AbstractKeyData {
             }
             // remove emoji shortcut on enter in tablet mode (like original, because bottom row always has an emoji key)
             // (probably not necessary, but whatever) and in emoji mode
-            if ((Settings.getInstance().isTablet || params.mId.element == KeyboardElement.EMOJI_BOTTOM_ROW)
+            if ((Settings.getInstance().isFullLayout || params.mId.element == KeyboardElement.EMOJI_BOTTOM_ROW)
                 && popupKeys.remove("!icon/emoji_action_key|!code/key_emoji")) {
                 val i = popupKeys.indexOfFirst { it.startsWith(Key.POPUP_KEYS_FIXED_COLUMN_ORDER) }
                 if (i > -1) {
@@ -414,7 +414,11 @@ sealed interface KeyData : AbstractKeyData {
             KeyLabel.COM, KeyLabel.LANGUAGE_SWITCH, KeyLabel.NUMPAD, KeyLabel.DPAD, KeyLabel.CTRL, KeyLabel.ALT,
             KeyLabel.FN, KeyLabel.META, KeyLabel.EMOJI_SEARCH, toolbarKeyStrings[ToolbarKey.EMOJI] -> return Key.BACKGROUND_TYPE_FUNCTIONAL
             KeyLabel.SPACE, KeyLabel.ZWNJ -> return Key.BACKGROUND_TYPE_SPACEBAR
-            KeyLabel.ACTION -> return Key.BACKGROUND_TYPE_ACTION
+            // like iOS, a plain return key looks like the other keys, and only real actions (send, go, search...) are blue
+            KeyLabel.ACTION -> return when (params.mId.imeAction) {
+                EditorInfo.IME_ACTION_NONE, EditorInfo.IME_ACTION_UNSPECIFIED -> Key.BACKGROUND_TYPE_FUNCTIONAL
+                else -> Key.BACKGROUND_TYPE_ACTION
+            }
             KeyLabel.SHIFT -> return Key.BACKGROUND_TYPE_FUNCTIONAL
         }
         if (type == KeyType.PLACEHOLDER) return Key.BACKGROUND_TYPE_EMPTY

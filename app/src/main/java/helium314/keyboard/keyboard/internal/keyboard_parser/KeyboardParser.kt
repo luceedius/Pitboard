@@ -23,6 +23,7 @@ import helium314.keyboard.latin.utils.POPUP_KEYS_NUMBER
 import helium314.keyboard.latin.utils.replaceFirst
 import helium314.keyboard.latin.utils.splitAt
 import helium314.keyboard.latin.utils.sumOf
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
@@ -195,6 +196,8 @@ class KeyboardParser(private val params: KeyboardParams, private val context: Co
                 keysInRows.add(ArrayList(allKeys))
             }
         }
+        if (params.mId.element.isAlphabet)
+            makeLetterWidthsUniform(bassKeyParams, functionalKeys, keysInRows)
 
         // adjust last normal row key widths to be aligned with row above, assuming a reasonably close-to-default alpha / symbol layout
         // like in original layouts, e.g. for nordic and swiss layouts
@@ -222,6 +225,39 @@ class KeyboardParser(private val params: KeyboardParams, private val context: Co
         lastNormalFullRow.add(lastNormalFullRow.indexOfLast { it == lastNormalRow.last() } + 1, KeyParams.newSpacer(params, spacerWidth))
 
         return keysInRows
+    }
+
+    /**
+     * Gives the letters in all rows the same width, after [setReasonableWidths] has fitted each row on its own.
+     * Rows with more letters than usual (e.g. Russian with 11, 11 and 9) would otherwise shrink by different amounts.
+     * The target is the narrowest letter row. The functional keys at the ends of a row (shift, delete, tab, symbols in the
+     * full layout) take whatever space is left. Rows without functional keys, or with spacers, cannot change, so if there
+     * are any, their width is the target. A row is left alone if its functional keys would become narrower than half a letter.
+     */
+    private fun makeLetterWidthsUniform(
+        baseKeys: List<List<KeyParams>>,
+        functionalKeys: List<Pair<List<KeyParams>, List<KeyParams>>>,
+        keysInRows: List<List<KeyParams>>
+    ) {
+        // rows of letters that all have the same width; the bottom row (empty in baseKeys) is not one of them
+        val rows = baseKeys.indices.filter { i ->
+            val keys = baseKeys[i]
+            keys.isNotEmpty() && keys.none { it.isSpacer || it.mWidth != keys.first().mWidth }
+        }
+        if (rows.size < 2) return
+        val (adjustable, fixed) = rows.partition { i ->
+            (functionalKeys[i].first + functionalKeys[i].second).isNotEmpty() && keysInRows[i].none { it.isSpacer }
+        }
+        val width = (fixed.ifEmpty { rows }).minOf { baseKeys[it].first().mWidth }
+        for (i in adjustable) {
+            val keys = baseKeys[i]
+            if (abs(keys.first().mWidth - width) < 0.0001f) continue
+            val functional = functionalKeys[i].first + functionalKeys[i].second
+            val scale = (1f - keys.size * width) / functional.sumOf { it.mWidth }
+            if (scale <= 0f || functional.any { it.mWidth * scale < width / 2 }) continue
+            keys.forEach { it.mWidth = width }
+            functional.forEach { it.mWidth *= scale }
+        }
     }
 
     /**

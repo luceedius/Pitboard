@@ -25,6 +25,7 @@ class KeyboardIconsSet private constructor() {
         val defaultIds = when (iconStyle) {
             KeyboardTheme.STYLE_HOLO -> keyboardIconsHolo
             KeyboardTheme.STYLE_ROUNDED -> keyboardIconsRounded
+            KeyboardTheme.STYLE_IOS -> keyboardIconsIos
             else -> keyboardIconsMaterial
         }
         val overrideIds = customIconIds(context, prefs)
@@ -289,6 +290,29 @@ class KeyboardIconsSet private constructor() {
             }
         } }
 
+        // iOS style: the rounded set, with the keys that show on the main layouts replaced by line icons
+        // drawn in the style of SF Symbols (res/drawable/ios_*.xml)
+        private val keyboardIconsIos by lazy { HashMap(keyboardIconsRounded).apply {
+            put(NAME_SHIFT_KEY, R.drawable.ios_shift)
+            put(NAME_SHIFT_KEY_SHIFTED, R.drawable.ios_shift_on)
+            put(NAME_SHIFT_KEY_LOCKED, R.drawable.ios_shift_lock)
+            put(NAME_DELETE_KEY, R.drawable.ios_delete)
+            put(NAME_ENTER_KEY, R.drawable.ios_return)
+            put(NAME_GO_KEY, R.drawable.ios_go)
+            put(NAME_SEARCH_KEY, R.drawable.ios_search)
+            put(NAME_SEND_KEY, R.drawable.ios_send)
+            put(NAME_DONE_KEY, R.drawable.ios_done)
+            put(NAME_NEXT_KEY, R.drawable.ios_go)
+            put(NAME_TAB_KEY, R.drawable.ios_tab)
+            put(NAME_LANGUAGE_SWITCH_KEY, R.drawable.ios_globe)
+            put(ToolbarKey.EMOJI.name.lowercase(Locale.US), R.drawable.ios_emoji)
+            put(ToolbarKey.SPLIT.name.lowercase(Locale.US), R.drawable.ios_split)
+            put(ToolbarKey.LEFT.name.lowercase(Locale.US), R.drawable.ios_arrow_left)
+            put(ToolbarKey.RIGHT.name.lowercase(Locale.US), R.drawable.ios_arrow_right)
+            put(ToolbarKey.UP.name.lowercase(Locale.US), R.drawable.ios_arrow_up)
+            put(ToolbarKey.DOWN.name.lowercase(Locale.US), R.drawable.ios_arrow_down)
+        } }
+
         fun getAllIcons(context: Context): Map<String, List<Int>> {
             // currently active style first
             val iconStyle = context.prefs().getString(Settings.PREF_ICON_STYLE, Defaults.PREF_ICON_STYLE(context.prefs()))
@@ -296,6 +320,7 @@ class KeyboardIconsSet private constructor() {
                 name to when (iconStyle) {
                     KeyboardTheme.STYLE_HOLO -> listOfNotNull(keyboardIconsHolo[name], keyboardIconsRounded[name], id)
                     KeyboardTheme.STYLE_ROUNDED -> listOfNotNull(keyboardIconsRounded[name], id, keyboardIconsHolo[name])
+                    KeyboardTheme.STYLE_IOS -> listOfNotNull(keyboardIconsIos[name], keyboardIconsRounded[name], id, keyboardIconsHolo[name]).distinct()
                     else -> listOfNotNull(id, keyboardIconsRounded[name], keyboardIconsHolo[name])
                 }
             }

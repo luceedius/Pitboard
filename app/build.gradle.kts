@@ -7,17 +7,17 @@ plugins {
 }
 
 android {
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "helium314.keyboard"
         minSdk = 21
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 4301
         versionName = "4.3-beta2"
         ndk {
             abiFilters.clear()
-            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
+            abiFilters.addAll(listOf("arm64-v8a"))
         }
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -83,7 +83,7 @@ android {
             path = File("src/main/jni/Android.mk")
         }
     }
-    ndkVersion = "28.0.13004108"
+    ndkVersion = "27.0.12077973"
 
     packaging {
         jniLibs {

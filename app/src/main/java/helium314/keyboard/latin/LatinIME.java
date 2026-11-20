@@ -486,6 +486,8 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onCreate() {
+        // Must run before super.onCreate(): a see-through window lets the blur and the key tint show the app behind.
+        setTheme(R.style.ImeWindowTheme);
         mSettings.startListener();
         KeyboardIconsSet.Companion.getInstance().loadIcons(this);
         mRichImm = RichInputMethodManager.getInstance();
@@ -674,9 +676,37 @@ public class LatinIME extends InputMethodService implements
     @Override
     public void setInputView(final View view) {
         super.setInputView(view);
+        applyWindowBlur(view);
         // updateSoftInputWindowLayoutParameters needs to happen after setInputView
         mKeyboardSwitcher.updateSoftInputWindowLayoutParameters();
         updateSuggestionStripView(view);
+    }
+
+    private static final int WINDOW_BLUR_RADIUS_PX = 140;
+    private static final float PANEL_CORNER_RADIUS_DP = 22f;
+    private static final float BLUR_SATURATION = 0.2f;
+
+    private void applyWindowBlur(final View view) {
+        final Window window = getWindow().getWindow();
+        if (window == null) return;
+        window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.TRANSPARENT));
+        // Without this the system puts a dark scrim behind the navigation bar under the keys.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) window.setNavigationBarContrastEnforced(false);
+        if (getSystemService(android.view.WindowManager.class).isCrossWindowBlurEnabled()) {
+            window.setBackgroundBlurRadius(WINDOW_BLUR_RADIUS_PX);
+        } else {
+            // The IME window covers the whole screen, so blur only the frame that holds the keys. Blurring the root would blur the app too.
+            final View frame = view.findViewById(R.id.main_keyboard_frame);
+            final int tint = mSettings.getCurrent().mColors.get(ColorType.MAIN_BACKGROUND);
+            // iOS 26 draws the keyboard as a sheet with rounded top corners
+            final float corner = PANEL_CORNER_RADIUS_DP * getResources().getDisplayMetrics().density;
+            // Squeeze the blurred app into a dark (or light) band of brightness first, so the panel stays calm over a loud app
+            // but still shows its colours. The tint then only needs to be light.
+            final helium314.keyboard.latin.utils.SamsungBlur.Curve curve = ColorUtilKt.isBrightColor(tint)
+                    ? new helium314.keyboard.latin.utils.SamsungBlur.Curve(BLUR_SATURATION, 0f, 0f, 255f, 175f, 240f)
+                    : new helium314.keyboard.latin.utils.SamsungBlur.Curve(BLUR_SATURATION, 0f, 0f, 255f, 14f, 80f);
+            helium314.keyboard.latin.utils.SamsungBlur.INSTANCE.apply(frame != null ? frame : view, WINDOW_BLUR_RADIUS_PX, tint, corner, curve);
+        }
     }
 
     public void updateSuggestionStripView(View view) {

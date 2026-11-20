@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="KeyboardTheme.Ios" parent="KeyboardTheme.Rounded_Base_Border">
+        <item name="keyboardStyle">@style/Keyboard.Ios</item>
+        <item name="keyboardViewStyle">@style/KeyboardView.Ios</item>
+        <item name="mainKeyboardViewStyle">@style/MainKeyboardView.Ios</item>
+        <item name="emojiPalettesViewStyle">@style/EmojiPalettesView.Ios</item>
+        <item name="clipboardHistoryViewStyle">@style/ClipboardHistoryView.Ios</item>
+        <item name="suggestionStripViewStyle">@style/SuggestionStripView.Ios</item>
+    </style>
+
+    <!-- Keys keep a small margin to the screen edge, like on an iPhone (about 3dp). -->
+    <style name="Keyboard.Ios" parent="Keyboard.Rounded_Base_Border">
+        <item name="keyboardLeftPadding">0.7%p</item>
+        <item name="keyboardRightPadding">0.7%p</item>
+    </style>
+
+    <style name="KeyboardView.Ios" parent="KeyboardView.Rounded_Base_Border">
+        <item name="android:background">@drawable/ios_panel</item>
+        <item name="keyBackground">@drawable/ios_key</item>
+        <item name="functionalKeyBackground">@drawable/ios_key</item>
+        <item name="spacebarBackground">@drawable/ios_key</item>
+    </style>
+
+    <style name="MainKeyboardView.Ios" parent="MainKeyboardView.Rounded_Base_Border">
+        <item name="keyPreviewBackground">@drawable/ios_key_preview</item>
+        <item name="android:background">@drawable/ios_panel</item>
+        <item name="keyBackground">@drawable/ios_key</item>
+        <item name="functionalKeyBackground">@drawable/ios_key</item>
+        <item name="spacebarBackground">@drawable/ios_key</item>
+    </style>
+
+    <style name="EmojiPalettesView.Ios" parent="EmojiPalettesView.Rounded_Base_Border">
+        <item name="android:background">@drawable/ios_panel</item>
+        <item name="keyBackground">@drawable/ios_key</item>
+        <item name="functionalKeyBackground">@drawable/ios_key</item>
+        <item name="spacebarBackground">@drawable/ios_key</item>
+    </style>
+
+    <style name="ClipboardHistoryView.Ios" parent="ClipboardHistoryView.Rounded_Base_Border">
+        <item name="android:background">@drawable/ios_panel</item>
+        <item name="keyBackground">@drawable/ios_key</item>
+        <item name="functionalKeyBackground">@drawable/ios_key</item>
+    </style>
+
+    <style name="SuggestionStripView.Ios" parent="SuggestionStripView.Rounded_Base_Border">
+        <item name="android:background">@drawable/ios_panel</item>
+    </style>
+
+    <!-- The IME window itself has to be see-through, so the blur and the key tint show the app behind. -->
+    <style name="ImeWindowTheme" parent="@android:style/Theme.DeviceDefault.InputMethod">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>

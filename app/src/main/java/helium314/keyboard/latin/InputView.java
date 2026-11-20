@@ -12,9 +12,11 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
 import androidx.core.view.ViewKt;
+import androidx.core.view.WindowInsetsCompat;
 
 import helium314.keyboard.accessibility.AccessibilityUtils;
 import helium314.keyboard.keyboard.MainKeyboardView;
@@ -29,6 +31,8 @@ import kotlin.Unit;
 public final class InputView extends FrameLayout {
     private final Rect mInputViewRect = new Rect();
     private MainKeyboardView mMainKeyboardView;
+    private View mKeyboardViewWrapper;
+    private int mBottomInset;
     private KeyboardTopPaddingForwarder mKeyboardTopPaddingForwarder;
     private MoreSuggestionsViewCanceler mMoreSuggestionsViewCanceler;
     private MotionEventForwarder<?, ?> mActiveForwarder;
@@ -43,6 +47,7 @@ public final class InputView extends FrameLayout {
         final SuggestionStripView suggestionStripView =
                 findViewById(R.id.suggestion_strip_view);
         mMainKeyboardView = findViewById(R.id.keyboard_view);
+        mKeyboardViewWrapper = findViewById(R.id.keyboard_view_wrapper);
         mKeyboardTopPaddingForwarder = new KeyboardTopPaddingForwarder(
                 mMainKeyboardView, suggestionStripView);
         mMoreSuggestionsViewCanceler = new MoreSuggestionsViewCanceler(
@@ -104,6 +109,27 @@ public final class InputView extends FrameLayout {
         final int x = (int)me.getX(index) + rect.left;
         final int y = (int)me.getY(index) + rect.top;
         return mActiveForwarder.onTouchEvent(x, y, me);
+    }
+
+    // The keyboard window reaches down behind the navigation bar. On this phone Android reports the bar to the window
+    // as a caption bar inset, and navigationBars() is 0. Android also does not send the insets again when the emoji or
+    // clipboard view is inflated later, so those views used to miss the padding and sat behind the bar.
+    // So this view takes the inset, pads the wrapper that holds all keyboard views, and the views inside never see it.
+    @Override
+    public WindowInsets onApplyWindowInsets(final WindowInsets insets) {
+        mBottomInset = WindowInsetsCompat.toWindowInsetsCompat(insets, this)
+                .getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+        requestLayout();
+        return WindowInsetsCompat.CONSUMED.toWindowInsets();
+    }
+
+    @Override
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        // A floating keyboard is already placed above the navigation bar (FloatingKeyboardUtils), so it gets no padding.
+        final int bottom = Settings.getValues().mIsFloatingKeyboard ? 0 : mBottomInset;
+        if (mKeyboardViewWrapper.getPaddingBottom() != bottom)
+            mKeyboardViewWrapper.setPadding(0, 0, 0, bottom);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private Unit onNextLayout(View v) {

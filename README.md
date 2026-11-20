@@ -1,4 +1,6 @@
 # HeliBoard
+> **This is Pitboard, a personal fork with an iOS 26 look. See [FORK.md](FORK.md) for what changed and what is untested.**
+
 HeliBoard is a privacy-conscious and customizable open-source keyboard, based on AOSP / OpenBoard.
 Does not use internet permission, and thus is 100% offline.
 

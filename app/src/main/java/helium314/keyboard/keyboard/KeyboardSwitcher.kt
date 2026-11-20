@@ -53,6 +53,7 @@ import helium314.keyboard.latin.utils.SubtypeUtilsAdditional.createDefaultSubtyp
 import helium314.keyboard.latin.utils.ToolbarMode
 import helium314.keyboard.latin.utils.dpToPx
 import helium314.keyboard.latin.utils.prefs
+import androidx.core.content.edit
 import helium314.keyboard.latin.utils.updateSoftInputWindowLayoutParameters
 
 class KeyboardSwitcher private constructor() {
@@ -372,6 +373,12 @@ class KeyboardSwitcher private constructor() {
             isFolded
         )
         setOneHandedModeEnabled(settings.current.mOneHandedModeEnabled, true)
+        reloadKeyboard()
+    }
+
+    fun toggleFullLayout() {
+        val prefs = latinIME.prefs()
+        prefs.edit { putBoolean(Settings.PREF_FULL_LAYOUT, !Settings.getInstance().isFullLayout) }
         reloadKeyboard()
     }
 

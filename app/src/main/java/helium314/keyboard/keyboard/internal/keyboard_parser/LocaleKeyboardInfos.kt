@@ -25,8 +25,9 @@ class LocaleKeyboardInfos(dataStream: InputStream?, locale: Locale) {
     val labelSymbolInNumpad = "!?#"
     var labelAlphabet = "ABC"
         private set
-    private var labelShiftSymbol = "= \\\\ <"
-    private var labelShiftSymbolTablet = "~ [ <"
+    // iOS labels the key that opens the second symbols page "#+=", on the phone and on the iPad
+    private var labelShiftSymbol = "#+="
+    private var labelShiftSymbolTablet = "#+="
     var labelComma = ","
         private set
     var labelPeriod = "."

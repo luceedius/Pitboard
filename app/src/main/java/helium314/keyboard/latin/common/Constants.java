@@ -222,6 +222,7 @@ public final class Constants {
             case KeyCode.TOGGLE_ONE_HANDED_MODE -> "toggleOneHandedMode";
             case KeyCode.SWITCH_ONE_HANDED_MODE -> "switchOneHandedMode";
             case KeyCode.SPLIT_LAYOUT -> "splitLayout";
+            case KeyCode.TOGGLE_FULL_LAYOUT -> "toggleFullLayout";
             case KeyCode.NUMPAD -> "numpad";
             case KeyCode.DPAD -> "dpad";
             case KeyCode.EMOJI_SEARCH -> "emojiSearch";

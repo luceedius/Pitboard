@@ -111,6 +111,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_FLOATING_ENABLED_PREFIX = "floating_enabled";
     public static final String PREF_FLOATING_POS_X_PREFIX = "floating_pos_x";
     public static final String PREF_FLOATING_POS_Y_PREFIX = "floating_pos_y";
+    public static final String PREF_FULL_LAYOUT = "full_layout";
     public static final String PREF_FONT_SCALE = "font_scale";
     public static final String PREF_HINT_FONT_SCALE = "hint_font_scale";
     public static final String PREF_EMOJI_FONT_SCALE = "emoji_font_scale";
@@ -538,6 +539,11 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public boolean isTablet() {
         return mContext.getResources().getInteger(R.integer.config_screen_metrics) >= 3;
+    }
+
+    /** the full layout (number row, tab, esc, brackets...) is only used on tablet-sized screens, and can be switched off there */
+    public boolean isFullLayout() {
+        return isTablet() && mPrefs.getBoolean(PREF_FULL_LAYOUT, Defaults.PREF_FULL_LAYOUT);
     }
 
     @SuppressLint("DiscouragedApi")

@@ -1,39 +1,50 @@
 [
   [
-    { "$": "keyboard_state_selector", "dpad": { "type": "placeholder", "width": 0.1 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "~", "type": "function", "width": 0.0667 }, "default": { "label": "`", "type": "function", "width": 0.0667 } },
     { "type": "placeholder" },
-    { "label": "delete", "width": 0.1 }
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "_", "type": "function", "width": 0.0667 }, "default": { "label": "-", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "+", "type": "function", "width": 0.0667 }, "default": { "label": "=", "type": "function", "width": 0.0667 } },
+    { "label": "delete", "width": 0.1333 }
+  ],
+  [
+    { "label": "!icon/tab_key|!code/key_tab", "type": "function", "width": 0.1 },
+    { "type": "placeholder" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "{", "type": "function", "width": 0.0667 }, "default": { "label": "[", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "}", "type": "function", "width": 0.0667 }, "default": { "label": "]", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "|", "type": "function", "width": 0.1 }, "default": { "label": "\\", "type": "function", "width": 0.1 } }
   ],
   [
     { "type": "placeholder" }
   ],
   [
-    { "$": "keyboard_state_selector", "dpad": { "type": "placeholder", "width": 0.1 } },
+    { "label": "esc|!code/-10017", "type": "function", "width": 0.1167, "labelFlags": 1073807360 },
     { "type": "placeholder" },
-    { "label": "action", "width": 0.1, "labelFlags": 1073741824 }
+    { "$": "shift_state_selector", "manualOrLocked": { "label": ":", "type": "function", "width": 0.0667 }, "default": { "label": ";", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "\"", "type": "function", "width": 0.0667 }, "default": { "label": "'", "type": "function", "width": 0.0667 } },
+    { "label": "action", "width": 0.15, "labelFlags": 1073741824 }
   ],
   [
-    { "label": "shift", "width": 0.1 },
+    { "label": "shift", "width": 0.1867 },
     { "type": "placeholder" },
-    { "label": "shift" }
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "<", "type": "function", "width": 0.0667 }, "default": { "label": "comma", "width": 0.0667, "labelFlags": 1073741824 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": ">", "type": "function", "width": 0.0667 }, "default": { "label": "period", "width": 0.0667, "labelFlags": 1073741824 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "?", "type": "function", "width": 0.0667 }, "default": { "label": "/", "type": "function", "width": 0.0667 } },
+    { "label": "shift", "width": 0.1867 }
   ],
   [
-    { "label": "symbol_alpha" },
-    { "$": "variation_selector",
-      "default":  { "label": "comma", "labelFlags": 1073741824 },
-      "email":    { "label": "@", "labelFlags": 1073741824, "groupId": 1, "type": "function" },
-      "uri":      { "label": "/", "labelFlags": 1073741824, "groupId": 1, "type": "function" }
-    },
-    { "$": "keyboard_state_selector", "languageKeyEnabled": { "$": "keyboard_state_selector", "alphabet": { "label": "language_switch" }}},
-    { "$": "keyboard_state_selector", "symbols": { "label": "numpad" } },
+    { "label": "symbol_alpha", "width": 0.0833 },
+    { "label": "ctrl|!code/-1", "type": "function", "width": 0.0833, "labelFlags": 1073807360 },
+    { "label": "alt|!code/-3", "type": "function", "width": 0.0667, "labelFlags": 1073807360 },
+    { "label": "meta|!code/-10012", "type": "function", "width": 0.0667, "labelFlags": 1073807360 },
     { "label": "space" },
-    { "$": "keyboard_state_selector",
-      "symbols": { "$": "keyboard_state_selector", "dpadKeyEnabled": { "label": "dpad" } },
-      "dpad": { "label": "symbol" }
-    },
-    { "label": "period" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "home|!code/-27", "type": "function", "width": 0.0667, "labelFlags": 1073807360 }, "default": { "label": "!icon/left|!code/-21", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "pgdn|!code/-10011", "type": "function", "width": 0.0667, "labelFlags": 1073807360 }, "default": { "label": "!icon/down|!code/-24", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "pgup|!code/-10010", "type": "function", "width": 0.0667, "labelFlags": 1073807360 }, "default": { "label": "!icon/up|!code/-23", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "end|!code/-28", "type": "function", "width": 0.0667, "labelFlags": 1073807360 }, "default": { "label": "!icon/right|!code/-22", "type": "function", "width": 0.0667 } },
+    { "label": "!icon/split|!code/-113", "type": "function", "width": 0.0667 },
+    { "label": "mobile|!code/-110", "type": "function", "width": 0.0667, "labelFlags": 1073807360 },
     { "$": "variation_selector",
-      "default":  { "label": "emoji" },
+      "default":  { "label": "emoji", "width": 0.0667 },
       "email":    { "label": "com" },
       "uri":      { "label": "com" }
     }

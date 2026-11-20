@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,6 +104,11 @@ public class InlineAutofillUtils {
     public static InlineContentClipView createView(final List<InlineSuggestion> inlineSuggestions,
                                                    final Context context) {
         LinearLayout container = new LinearLayout(context);
+        // some space between the pills, otherwise several suggestions touch each other
+        final GradientDrawable gap = new GradientDrawable();
+        gap.setSize((int) (8 * context.getResources().getDisplayMetrics().density), 1);
+        container.setDividerDrawable(gap);
+        container.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         for (InlineSuggestion inlineSuggestion : inlineSuggestions) {
             inlineSuggestion.inflate(context, new Size(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT), context.getMainExecutor(), (view) -> {

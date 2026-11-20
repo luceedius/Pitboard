@@ -3,6 +3,7 @@ package helium314.keyboard.latin.settings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
@@ -31,7 +32,13 @@ object Defaults {
         LayoutType.MAIN -> "qwerty"
         LayoutType.SYMBOLS -> "symbols"
         LayoutType.MORE_SYMBOLS -> "symbols_shifted"
-        LayoutType.FUNCTIONAL -> if (Settings.getInstance().isTablet) "functional_keys_tablet" else "functional_keys"
+        LayoutType.FUNCTIONAL -> when {
+            // portrait has narrower end keys, so the letters get more of the narrow screen
+            Settings.getInstance().isFullLayout -> if (Settings.getCurrentContext().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+                "functional_keys_tablet_portrait" else "functional_keys_tablet"
+            Settings.getInstance().isTablet -> "functional_keys_mobile" // like functional_keys, plus a key to switch back to the full layout
+            else -> "functional_keys"
+        }
         LayoutType.NUMBER -> "number"
         LayoutType.NUMBER_ROW -> "number_row"
         LayoutType.NUMPAD -> "numpad"
@@ -44,18 +51,18 @@ object Defaults {
     }
 
     private const val DEFAULT_SIZE_SCALE = 1.0f // 100%
-    const val PREF_THEME_STYLE = KeyboardTheme.STYLE_MATERIAL
+    const val PREF_THEME_STYLE = KeyboardTheme.STYLE_IOS
     fun PREF_ICON_STYLE(prefs: SharedPreferences) = prefs.getString(Settings.PREF_THEME_STYLE, PREF_THEME_STYLE)!!
     const val PREF_ACCENT_SHIFTED_ICON = false
-    const val PREF_THEME_COLORS = KeyboardTheme.THEME_LIGHT
-    const val PREF_THEME_COLORS_NIGHT = KeyboardTheme.THEME_DARK
-    const val PREF_THEME_KEY_BORDERS = false
+    const val PREF_THEME_COLORS = KeyboardTheme.THEME_IOS
+    const val PREF_THEME_COLORS_NIGHT = KeyboardTheme.THEME_IOS
+    const val PREF_THEME_KEY_BORDERS = true
     @JvmField
     val PREF_THEME_DAY_NIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     const val PREF_CUSTOM_ICON_NAMES = ""
     const val PREF_TOOLBAR_CUSTOM_KEY_CODES = ""
     const val PREF_AUTO_CAP = true
-    const val PREF_VIBRATE_ON = false
+    const val PREF_VIBRATE_ON = true
     const val PREF_VIBRATE_IN_DND_MODE = false
     const val PREF_SOUND_ON = false
     const val PREF_SUGGEST_EMOJIS = true
@@ -76,8 +83,8 @@ object Defaults {
     const val PREF_KEY_USE_PERSONALIZED_DICTS = true
     const val PREF_KEY_USE_DOUBLE_SPACE_PERIOD = true
     const val PREF_BLOCK_POTENTIALLY_OFFENSIVE = true
-    const val PREF_SHOW_LANGUAGE_SWITCH_KEY = false
-    const val PREF_LANGUAGE_SWITCH_KEY = "internal"
+    const val PREF_SHOW_LANGUAGE_SWITCH_KEY = true
+    const val PREF_LANGUAGE_SWITCH_KEY = "internal" // the globe key switches between HeliBoard languages only
     const val PREF_SHOW_EMOJI_KEY = false
     const val PREF_SHOW_DPAD_KEY = true
     const val PREF_VARIABLE_TOOLBAR_DIRECTION = true
@@ -88,17 +95,20 @@ object Defaults {
     @JvmField
     val PREF_SPLIT_SPACER_SCALE = Array(4) { DEFAULT_SIZE_SCALE }
     @JvmField
-    val PREF_KEYBOARD_HEIGHT_SCALE = Array(4) { DEFAULT_SIZE_SCALE }
+    // an iPhone key row is 54dp, HeliBoard's default is about 70dp; index 1 is landscape, which is the unfolded inner screen
+    val PREF_KEYBOARD_HEIGHT_SCALE = arrayOf(0.78f, 0.82f, 0.78f, 0.78f)
     @JvmField
     val PREF_BOTTOM_ROW_SCALE = Array(4) { DEFAULT_SIZE_SCALE }
     @JvmField
     // DEFAULT_SIZE_SCALE for portrait, 0 for landscape (normal and folded)
     val PREF_BOTTOM_PADDING_SCALE = arrayOf(DEFAULT_SIZE_SCALE, 0f, DEFAULT_SIZE_SCALE, 0f)
     @JvmField
-    val PREF_SIDE_PADDING_SCALE = Array(8) { 0f }
+    val PREF_SIDE_PADDING_SCALE = Array(8) { 1f }
     @JvmField
-    val PREF_KEY_GAP_SCALE = Array(4) { DEFAULT_SIZE_SCALE }
-    const val PREF_FONT_SCALE = DEFAULT_SIZE_SCALE
+    // keys on the unfolded inner screen (index 0 portrait, 1 landscape) sit closer together, so they are bigger targets;
+    // indexes 2 and 3 are the cover screen
+    val PREF_KEY_GAP_SCALE = arrayOf(0.4f, 0.4f, DEFAULT_SIZE_SCALE, DEFAULT_SIZE_SCALE)
+    const val PREF_FONT_SCALE = 0.88f // iOS letters are smaller than HeliBoard's
     const val PREF_HINT_FONT_SCALE = DEFAULT_SIZE_SCALE
     const val PREF_EMOJI_FONT_SCALE = DEFAULT_SIZE_SCALE
     const val PREF_EMOJI_KEY_FIT = true
@@ -130,7 +140,7 @@ object Defaults {
     // physical layout ignored for uppercase letters only (?) https://github.com/HeliBorg/HeliBoard/issues/2030
     const val PREF_ENABLE_HARDWARE_KEYBOARD = false
     const val PREF_GESTURE_PREVIEW_TRAIL = true
-    const val PREF_GESTURE_FLOATING_PREVIEW_TEXT = true
+    const val PREF_GESTURE_FLOATING_PREVIEW_TEXT = false
     const val PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC = true
     @JvmField
     var PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM = true
@@ -145,12 +155,14 @@ object Defaults {
     @SuppressLint("RtlHardcoded")
     const val PREF_ONE_HANDED_GRAVITY = Gravity.LEFT
     const val PREF_ONE_HANDED_SCALE = 1f
-    const val PREF_SHOW_NUMBER_ROW = false
+    /** the iPad-style tablet layout needs the number row, phones keep it off */
+    val PREF_SHOW_NUMBER_ROW get() = Settings.getInstance().isFullLayout
+    const val PREF_FULL_LAYOUT = true
     const val PREF_SHOW_NUMBER_ROW_IN_SYMBOLS = true
     const val PREF_LOCALIZED_NUMBER_ROW = true
     const val PREF_SHOW_NUMBER_ROW_HINTS = false
     const val PREF_CUSTOM_CURRENCY_KEY = ""
-    const val PREF_SHOW_HINTS = true
+    const val PREF_SHOW_HINTS = false
     const val PREF_POPUP_KEYS_ORDER = POPUP_KEYS_ORDER_DEFAULT
     const val PREF_POPUP_KEYS_HINT_ORDER = POPUP_KEYS_LABEL_DEFAULT
     const val PREF_SHOW_POPUP_HINTS = false
@@ -172,7 +184,7 @@ object Defaults {
     const val PREF_SELECTED_SUBTYPE = ""
     const val PREF_URL_DETECTION = false
     const val PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG = false
-    const val PREF_TOOLBAR_MODE = "EXPANDABLE"
+    const val PREF_TOOLBAR_MODE = "SUGGESTION_STRIP"
     const val PREF_TOOLBAR_HIDING_GLOBAL = true
     const val PREF_TOOLBAR_SWIPE_DOWN_TO_HIDE = false
     const val PREF_QUICK_PIN_TOOLBAR_KEYS = false
@@ -186,7 +198,7 @@ object Defaults {
     const val PREF_ABC_AFTER_SYMBOL_SPACE = true
     const val PREF_ABC_AFTER_NUMPAD_SPACE = false
     const val PREF_REMOVE_REDUNDANT_POPUPS = false
-    const val PREF_SPACE_BAR_TEXT = ""
+    const val PREF_SPACE_BAR_TEXT = "" // iOS 26 leaves the space bar blank
     const val PREF_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val PREF_RECENT_EMOJIS = ""
     const val PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID = 0

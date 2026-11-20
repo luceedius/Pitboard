@@ -562,7 +562,11 @@ class DefaultColors (
     }
 }
 
-class AllColors(private val colorMap: EnumMap<ColorType, Int>, override val themeStyle: String, override val hasKeyBorders: Boolean, backgroundImage: Drawable?) : Colors {
+/** [pressedColors] replaces the default pressed colour (the normal colour darkened a little) for the types it contains. */
+class AllColors(
+    private val colorMap: EnumMap<ColorType, Int>, override val themeStyle: String, override val hasKeyBorders: Boolean,
+    backgroundImage: Drawable?, private val pressedColors: Map<ColorType, Int> = emptyMap()
+) : Colors {
     private var keyboardBackground: Drawable? = backgroundImage
     private val stateListMap = EnumMap<ColorType, ColorStateList>(ColorType::class.java)
     private var backgroundSetupDone = false
@@ -570,7 +574,9 @@ class AllColors(private val colorMap: EnumMap<ColorType, Int>, override val them
     override fun get(color: ColorType): Int = colorMap[color] ?: color.default()
 
     override fun setColor(drawable: Drawable, color: ColorType) {
-        val colorStateList = stateListMap.getOrPut(color) { pressedStateList(brightenOrDarken(get(color), true), get(color)) }
+        val colorStateList = stateListMap.getOrPut(color) {
+            pressedStateList(pressedColors[color] ?: brightenOrDarken(get(color), true), get(color))
+        }
         DrawableCompat.setTintMode(drawable, PorterDuff.Mode.MULTIPLY)
         DrawableCompat.setTintList(drawable, colorStateList)
     }

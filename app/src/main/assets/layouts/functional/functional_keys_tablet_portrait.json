@@ -1,0 +1,52 @@
+[
+  [
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "~", "type": "function", "width": 0.0675 }, "default": { "label": "`", "type": "function", "width": 0.0675 } },
+    { "type": "placeholder" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "_", "type": "function", "width": 0.0675 }, "default": { "label": "-", "type": "function", "width": 0.0675 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "+", "type": "function", "width": 0.0675 }, "default": { "label": "=", "type": "function", "width": 0.0675 } },
+    { "label": "delete", "width": 0.1125 }
+  ],
+  [
+    { "label": "!icon/tab_key|!code/key_tab", "type": "function", "width": 0.09 },
+    { "type": "placeholder" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "{", "type": "function", "width": 0.0675 }, "default": { "label": "[", "type": "function", "width": 0.0675 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "}", "type": "function", "width": 0.0675 }, "default": { "label": "]", "type": "function", "width": 0.0675 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "|", "type": "function", "width": 0.0675 }, "default": { "label": "\\", "type": "function", "width": 0.0675 } }
+  ],
+  [
+    { "type": "placeholder" }
+  ],
+  [
+    { "label": "esc|!code/-10017", "type": "function", "width": 0.09, "labelFlags": 1073823744 },
+    { "type": "placeholder" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": ":", "type": "function", "width": 0.0675 }, "default": { "label": ";", "type": "function", "width": 0.0675 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "\"", "type": "function", "width": 0.0675 }, "default": { "label": "'", "type": "function", "width": 0.0675 } },
+    { "label": "action", "width": 0.1125, "labelFlags": 1073741824 }
+  ],
+  [
+    { "label": "shift", "width": 0.1867 },
+    { "type": "placeholder" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "<", "type": "function", "width": 0.0675 }, "default": { "label": "comma", "width": 0.0675, "labelFlags": 1073741824 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": ">", "type": "function", "width": 0.0675 }, "default": { "label": "period", "width": 0.0675, "labelFlags": 1073741824 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "?", "type": "function", "width": 0.0675 }, "default": { "label": "/", "type": "function", "width": 0.0675 } },
+    { "label": "shift", "width": 0.1867 }
+  ],
+  [
+    { "label": "symbol_alpha", "width": 0.0833 },
+    { "label": "ctrl|!code/-1", "type": "function", "width": 0.0833, "labelFlags": 1073823744 },
+    { "label": "alt|!code/-3", "type": "function", "width": 0.0667, "labelFlags": 1073823744 },
+    { "label": "meta|!code/-10012", "type": "function", "width": 0.0667, "labelFlags": 1073823744 },
+    { "label": "space" },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "home|!code/-27", "type": "function", "width": 0.0667, "labelFlags": 1073823744 }, "default": { "label": "!icon/left|!code/-21", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "pgdn|!code/-10011", "type": "function", "width": 0.0667, "labelFlags": 1073823744 }, "default": { "label": "!icon/down|!code/-24", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "pgup|!code/-10010", "type": "function", "width": 0.0667, "labelFlags": 1073823744 }, "default": { "label": "!icon/up|!code/-23", "type": "function", "width": 0.0667 } },
+    { "$": "shift_state_selector", "manualOrLocked": { "label": "end|!code/-28", "type": "function", "width": 0.0667, "labelFlags": 1073823744 }, "default": { "label": "!icon/right|!code/-22", "type": "function", "width": 0.0667 } },
+    { "label": "!icon/split|!code/-113", "type": "function", "width": 0.0667 },
+    { "label": "mobile|!code/-110", "type": "function", "width": 0.0667, "labelFlags": 1073823744 },
+    { "$": "variation_selector",
+      "default":  { "label": "emoji", "width": 0.0667 },
+      "email":    { "label": "com" },
+      "uri":      { "label": "com" }
+    }
+  ]
+]
